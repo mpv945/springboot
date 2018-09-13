@@ -1,0 +1,1 @@
+spring boot 支持properties和yml配置，支持两者并存，properties配置文件高于yml，在properties配置server.port = 8080,在yml配置端口为8090，最后以8080

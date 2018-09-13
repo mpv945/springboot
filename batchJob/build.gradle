@@ -5,6 +5,8 @@ buildscript {
     repositories {
         mavenCentral()
     }
+    //指定boot版本，用来提供相关的Maven默认的依赖，使用它之后，常用的包依赖可以省去version标签
+    //这个就类似maven的配<parent><groupId><org.springframework.boot</groupId><artifactid>spring-boot-starter-parent</artifactid><version>versions.'springBoot'</
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
