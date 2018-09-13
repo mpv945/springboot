@@ -12,6 +12,7 @@ buildscript {
     }
 }
 
+// 类似maven的插件 spring-boot-maven-plugin，提供spring boot打包为可执行的jar或者war文件
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
