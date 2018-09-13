@@ -3,6 +3,10 @@
 克隆指定分支
 git clone -b v2.8.1 https://git.oschina.net/oschina/android-app.git
 git pull
+负责自己项目的文件到克隆的文件夹内部
+先执行git status查看多少文件还没添加到本地仓库
+git add . 添加文件到本地仓库，再次git status可以看到文件变成绿色
+git commit -m "创建项目"
 
 
 下面操作需要进入到下载的项目跟目录
@@ -10,6 +14,10 @@ git pull
 git rm add2.txt
 git commit -m "rm test"
 git push web
+//git add是将未暂存的文件存入暂存区
+git add -A  提交所有变化
+git add -u  提交被修改(modified)和被删除(deleted)文件，不包括新文件(new)
+git add .  提交新文件(new)和被修改(modified)文件，不包括被删除(deleted)文件
 
 
 1) 远程仓库相关命令
