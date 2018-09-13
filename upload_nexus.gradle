@@ -1,0 +1,107 @@
+/*
+ * *********************************************************
+ *
+ *   执行上传 ./gradlew uploadArchives 或者 Gradle执行窗口: 点击Android Studio右侧的Gradle执行窗口，找到uploadArchives上传任务，点击执行。详情如下图：
+ *
+ * *********************************************************
+ *
+ *  1.在项目中新建gradle.properties文件，然后配置如下属性：
+ *
+ *  #上传构件的信息
+ *  GROUP=                            //组织名
+ *  ARTIFACT_ID=                      //项目名
+ *  VERSION_NAME=                     //版本名
+ *
+ *  compile 'GROUP:ARTIFACT_ID:VERSION_NAME' 项目依赖时
+ *
+ *  #上传的目标仓库地址
+ *  SNAPSHOT_REPOSITORY_URL=
+ *  RELEASE_REPOSITORY_URL=
+ *
+ *  #Nexus 的私服的用户名称和密码
+ *  NEXUS_USERNAME=
+ *  NEXUS_PASSWORD=
+ *
+ */
+
+// 上传到nexus的独立配置
+// 添加maven 插件
+apply plugin: 'maven'
+
+// 对配置文件的私服用户名和密码以及仓库url进行重新非空定义
+def getRepositoryUsername() {
+    return hasProperty('NEXUS_USERNAME') ? NEXUS_USERNAME : ""
+}
+def getRepositoryPassword() {
+    return hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : ""
+}
+def getRepositoryUrl() {
+    return !VERSION_NAME.toUpperCase().contains("SNAPSHOT") ? RELEASE_REPOSITORY_URL : SNAPSHOT_REPOSITORY_URL
+}
+
+afterEvaluate { project ->
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                pom.groupId = project.group
+                pom.artifactId = project.name
+                pom.version = project.version
+                repository(url: getRepositoryUrl()) {
+                    authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
+                }
+            }
+        }
+    }
+
+    if (project.hasProperty("android")) { // Android libraries
+        task sourcesJar(type: Jar) {
+            classifier = 'sources'
+            from android.sourceSets.main.java.srcDirs
+        }
+        task javadoc(type: Javadoc) {
+            failOnError false
+            source = android.sourceSets.main.java.srcDirs
+            classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+        }
+    } else { // Java libraries
+        task sourcesJar(type: Jar, dependsOn: classes) {
+            classifier = 'sources'
+            from sourceSets.main.allSource
+        }
+    }
+
+    // 制作文档(Javadoc)
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    artifacts {
+        archives javadocJar
+        // 带源码
+        archives sourcesJar
+    }
+
+    //解决 JavaDoc 中文注释生成失败的问题
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption('encoding', 'UTF-8')
+        options.addStringOption('charSet', 'UTF-8')
+    }
+
+    // javadoc configuration
+    javadoc {
+        options {
+            encoding "UTF-8"
+            charSet 'UTF-8'
+            author true
+            version project.version
+            links "http://docs.oracle.com/javase/8/docs/api"
+            title POM_ARTIFACT_ID
+        }
+        // 如果时1.9以下的jdk，使用html4
+        if(JavaVersion.current().isJava9Compatible()) {
+            options.addBooleanOption('html4', true)
+        }
+    }
+}

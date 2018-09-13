@@ -1,0 +1,71 @@
+/*group 'org.haijun.study'
+version '1.0-SNAPSHOT'*/
+
+apply from: 'dependency.gradle'//加载本地插件
+description = '第一个gradle项目，多项目管理'
+
+/*全部项目默认配置*/
+allprojects {
+
+    group 'org.haijun.study'
+    version '1.0-SNAPSHOT'
+
+    repositories {
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+//        mavenCentral()
+    }
+
+    // 为全项目指定配置
+    //apply from: 'dependency.gradle'
+
+
+}
+
+/*子项目共通配置*/
+subprojects {
+    // apply plugin: 'war' 对于非spring boot 的web项目http://wiki.jikexueyuan.com/project/gradle/war-package.html
+    // 关于java插件http://wiki.jikexueyuan.com/project/gradle/package.html，还有下面的后注释url
+    apply plugin: 'java' //http://wiki.jikexueyuan.com/project/gradle/java-package.html
+    //apply plugin: 'eclipse'
+    apply plugin: 'idea'
+
+    //该插件向你的项目添加了大量的执行质量检查的任务。你可以通过运行 gradle check 执行检查。
+    // 其中在other任务里有checkstyleMain对classes 下文件进行检查，还测试checkstyleTest，verification里面有check
+    //apply plugin: 'checkstyle'
+
+    //apply from: 'upload_nexus.gradle'//指定子项目使用maven上传
+
+    // 编码改为 UTF-8, 否则编译源码的时候会出错
+    // 当然，这个需要根据自己的 java 源码的编码进行调整
+    [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+    // 依赖jdk版本，使用配置文件的project_jdk
+    sourceCompatibility = project_jdk
+    targetCompatibility = project_jdk
+
+    // 依赖定义（这里必须要定义版本）
+    dependencies {
+        compileOnly('org.projectlombok:lombok:1.18.2')
+        //testCompile('org.springframework.boot:spring-boot-starter-test')
+        //testCompile('org.springframework.batch:spring-batch-test')
+        // 测试依赖
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
+
+    // 让子项目也有该函数
+    task hello << {
+        println project.getProperty("group")
+        println project.name
+        println project.version
+        println project.group
+        println versions.'springBoot'
+    }
+}
+// 自己写的测试函数，获取项目名称，版本等信息。再Gradle--》 other --》 选择对应方法名执行
+/*task hello << {
+    println project.getProperty("group")
+    println project.name
+    println project.version
+    println project.group
+}*/
+

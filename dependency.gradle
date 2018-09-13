@@ -1,0 +1,12 @@
+// 配置全局的变量，通过在build.gradle 添加apply from: 'dependency.gradle'//加载本地插件，compile(libraries.'jackson-databind',) 可以直接添加定义的依赖
+ext {
+    versions = [
+            jackson: '2.4.3',
+            springBoot : '2.0.5.RELEASE',
+    ]
+
+    libraries = [
+            "jackson-databind": "com.fasterxml.jackson.core:jackson-databind:${versions.jackson}",
+            "junit"           : "junit:junit:4.12",
+    ]
+}

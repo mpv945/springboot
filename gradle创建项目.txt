@@ -1,0 +1,53 @@
+1 点击File--> new project--> gradle (不要勾选java，啥都不勾）--> 创建一个root项目
+2 创建子项目 选择上面创建的项目，右键--> new Modele --> gradle--> 根据自己的项目类型（java项目勾选java，web勾选web）点击next---> Add as moudule to(父项目)
+3 确认父类的settings.gradle 包含 include '子项目名称'
+创建好以后，父项目只有build.gradle和setting.gradle ,可以新增gradle.properties放在配置变量，upload_nexus.gradle可以存放一些独立配置或者变量
+
+
+第一种通过 通过不同的uild-prd.gradle文件来切换
+def env=System.getProperty("profile") ?:"dev"
+if(env=='prd'){
+    apply from:"build-prd.gradle"
+}else{
+    apply from:"build-dev.gradle"
+}
+
+第二种 修改项目配置文件
+def env=System.getProperty("profile") ?:"dev"
+bootWar {
+   doFirst {
+      def file=new File("${buildDir}/resources/main/application.properties")
+      println("正在编译war包---环境[${env}]")
+      file.newWriter(false).with {
+         it.write("spring.profiles.active=${env}")
+         it.flush()
+         it.close()
+      }
+   }
+}
+
+如何打包呢，直接 gradle bootWar -Dprofile=prd 即可.
+
+
+排除
+compile( "com.github.sgroschupf:zkclient:0.1") {
+        exclude group: 'javax.jms', module: 'jms'
+        exclude group: 'com.sun.jmx', module: 'jmxri'
+        exclude group: 'com.sun.jdmk', module: 'jmxtools'
+}
+
+
+引入lib下的jar包
+dependencies {
+        compile "org.springframework:spring-webmvc:$springVersion",
+            "net.sf.json-lib:json-lib:2.2.1:jdk15",
+             fileTree(dir: 'lib', include: '*.jar')//引入根目录和各子项目下的libs中的jar包
+     }
+
+jar {
+    String someString = ''
+    configurations.runtime.each {someString = someString + " lib\\"+it.name}
+    manifest {
+        attributes 'Main-Class': 'com.each.dubboMainEnd'
+        attributes 'Class-Path': someString
+    }
