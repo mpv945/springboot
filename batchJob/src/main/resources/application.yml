@@ -1,2 +1,21 @@
-server:
-  port: 8082
+spring:
+#  datasource 连接信息,具体参考https://blog.csdn.net/zhangjq520/article/details/53996178
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/test
+    username: root
+    password: 12345
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #platform: #在架构资源中使用的平台（schema - $ {platform} .sql）
+    schema: classpath:sql/ddl/user_table.sql #Schema（DDL）脚本资源引用
+    separator: ; #语句分隔符在SQL初始化脚本中(默认;）
+    sql-script-encoding: UTF-8 #SQL脚本编码
+    data: classpath:sql/dml/user_data.sql #Data（DML）脚本资源引用(多个,号隔开)
+logging:
+  # 多环境日志 https://www.cnblogs.com/zheting/p/6707041.html
+  config: classpath:log/logback-spring.xml #https://blog.csdn.net/qq_32096997/article/details/79824668 和 http://www.cnblogs.com/fengqiaoyebo/p/9599810.html
+
+
+
+
+
+
