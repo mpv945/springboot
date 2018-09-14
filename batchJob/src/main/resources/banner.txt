@@ -20,4 +20,4 @@ ${AnsiColor.BRIGHT_YELLOW}
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ${AnsiStyle.BOLD} ${AnsiBackground.MAGENTA}        佛祖保佑       永无BUG
 ${AnsiColor.BLUE}
-::: Project: ${app.name}  (version: ${application.version}) :             ＼(^O^)／    Spring-Boot: ${spring-boot.version}
+::: Project: ${spring.application.name}  (version: ${application.version}) :             ＼(^O^)／    Spring-Boot: ${spring-boot.version}

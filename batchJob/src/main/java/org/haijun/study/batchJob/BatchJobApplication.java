@@ -1,18 +1,21 @@
 package org.haijun.study.batchJob;
 
-import org.springframework.boot.Banner;
-import org.springframework.boot.SpringApplication;
+import lombok.extern.java.Log;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 @SpringBootApplication
+@Log
 public class BatchJobApplication {
+
+    //protected static final Logger logger = LoggerFactory.getLogger(BatchJobApplication.class);
 
     /**
      * 第一个spring boot项目
      * @param args
      */
     public static void main(String[] args) {
+        log.info("服务开始启动");
         //SpringApplication.run(BatchJobApplication.class, args);
         new SpringApplicationBuilder(BatchJobApplication.class)
 
@@ -26,6 +29,6 @@ public class BatchJobApplication {
                 //Mode.OFF为关 默认是CONSOLE的，即只打印到控制台，LOG也可以输出到日志文件。
                 //.bannerMode(Banner.Mode.OFF)
                 .run(args);
-
+        log.info("服务启动成功");
     }
 }

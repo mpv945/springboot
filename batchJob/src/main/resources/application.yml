@@ -10,9 +10,11 @@ spring:
     separator: ; #语句分隔符在SQL初始化脚本中(默认;）
     sql-script-encoding: UTF-8 #SQL脚本编码
     data: classpath:sql/dml/user_data.sql #Data（DML）脚本资源引用(多个,号隔开)
-logging:
+logging: # spring boot.logging的实现就是Logback
   # 多环境日志 https://www.cnblogs.com/zheting/p/6707041.html
-  config: classpath:log/logback-spring.xml #https://blog.csdn.net/qq_32096997/article/details/79824668 和 http://www.cnblogs.com/fengqiaoyebo/p/9599810.html
+  config: classpath:log/log4j2-spring.xml #https://blog.csdn.net/qq_32096997/article/details/79824668 和 http://www.cnblogs.com/fengqiaoyebo/p/9599810.html
+  #file: ${app.name:haijunDefault}.log #(采用相对路径方式将日志文件输出到【xx.log】)不存在就用默认的
+
 
 
 
