@@ -27,15 +27,17 @@ dependencies {
     //compile('org.springframework.boot:spring-boot-starter')
     // 如果需要web使用下面的，会包含上面的依赖
     compile('org.springframework.boot:spring-boot-starter-web'){
+        // 当依赖版本过低，也可以使用排除然后依赖新的，例如依赖的spring-mvc过低，可以先排除，下面在依赖自己想要的版本
         // 替换默认的浏览器https://blog.csdn.net/chengqiuming/article/details/82081349
-        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+        //exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+        //transitive = false//传递依赖特性可以轻松地通过transitive参数进行开启或关闭
     }
     // 使用log4j2，需要删除上面依赖
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2'
     // 加上这个才能辨认到log4j2.yml文件
     compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.9.6'
     // 内置web容器也可以替换成-jetty或者-undertow
-    compile('org.springframework.boot:spring-boot-starter-undertow')
+    //compile('org.springframework.boot:spring-boot-starter-undertow')
     // spring-batch的依赖
     //compile('org.springframework.boot:spring-boot-starter-batch')
     // 连接redis的依赖
@@ -47,6 +49,7 @@ dependencies {
     // mybatis的依赖
     //compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2')
     // 只在编译的时候依赖lombok（自动set和get等相关处理）
+    // 如果启动提示失败，请到 全局设置 搜索 Annotation Processors 勾选【Enable annotation processing】
     compileOnly('org.projectlombok:lombok')
     // spring-boot 测试
     testCompile('org.springframework.boot:spring-boot-starter-test')
@@ -56,5 +59,14 @@ dependencies {
     // 数据库连接
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.12'
     // spring jdbc
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.0.5.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc'
+    compile group: 'com.alibaba', name: 'fastjson', version: '1.2.49'
+    // 使用最新的druid 阿里的数据库连接池
+    compile 'com.alibaba:druid-spring-boot-starter:+'
+    /*compile ('com.alibaba:druid:+'){
+        //force = true//如果依赖该项目，多个druid 依赖时，强制使用版本
+    }*/
+    // https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
 }

@@ -1,5 +1,7 @@
-CREATE TABLE 'users' (
-    'id' bigint(15) NOT NULL COMMENT '主键',
-    'name' varchar(10) COMMENT '用户名',
-    pwd varchar(256) COMMENT '密码'
-);
+CREATE TABLE `t_user` (
+`id` BIGINT(18) NOT NULL AUTO_INCREMENT COMMENT '主键' ,
+`code` VARCHAR(12) NULL COMMENT '编号' ,
+`name` VARCHAR(10) NULL COMMENT '用户名' ,
+`pwd` VARCHAR(256) NULL COMMENT '密码' ,
+PRIMARY KEY (`id`))
+ENGINE = InnoDB COMMENT = '用户表';
