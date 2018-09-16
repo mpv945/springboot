@@ -6,7 +6,7 @@ spring:
     properties:
       hibernate:
         #hibernate.format_sql: true
-        dialect: org.hibernate.dialect.MySQL57Dialect
+        dialect: org.hibernate.dialect.MySQL57Dialect # 用对应数据的方言
         hbm2ddl:
           auto: update # spring2 使用hibernate 自动生成表 需要这样配置,上面的也要开启
         #cache:
@@ -36,7 +36,7 @@ spring:
     #data-username: root
     #data-password: 123456
     #配置外部的数据源（数据源类别）
-    type: com.alibaba.druid.pool.DruidDataSource
+    #type: com.alibaba.druid.pool.DruidDataSource #如果druid-spring-boot-starter 可以不指定
     ## 配置druid log4j2 日志输出
     druid:
       #password: ${pwdMysql}
@@ -109,11 +109,20 @@ spring:
         #principal-session-name:
         #principal-cookie-name:
         profile-enable: true
+  #thymeleaf 模板引擎配置
+  thymeleaf:
+      mode: HTML5 #默认为html，支持html，xml,text javascript
+      encoding: UTF-8 #默认编码为UTF-8
+      # 默认true ，开发配置为false，避免修改模板还要重启服务器
+      cache: false
+      # 默认 classpath:/templates/ 可以不配
+      prefix: classpath:/templates/
 
 logging: # spring boot.logging的实现就是Logback
   # 多环境日志 https://www.cnblogs.com/zheting/p/6707041.html
   config: classpath:log/log4j2-spring.xml #https://blog.csdn.net/qq_32096997/article/details/79824668 和 http://www.cnblogs.com/fengqiaoyebo/p/9599810.html
   #file: ${app.name:haijunDefault}.log #(采用相对路径方式将日志文件输出到【xx.log】)不存在就用默认的
+
 
 
 

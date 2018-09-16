@@ -61,7 +61,7 @@ dependencies {
     // spring jdbc
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc'
     compile group: 'com.alibaba', name: 'fastjson', version: '1.2.49'
-    // 使用最新的druid 阿里的数据库连接池
+    // 使用最新的druid 阿里的数据库连接池 https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter
     compile 'com.alibaba:druid-spring-boot-starter:+'
     /*compile ('com.alibaba:druid:+'){
         //force = true//如果依赖该项目，多个druid 依赖时，强制使用版本
@@ -69,4 +69,5 @@ dependencies {
     // https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf'
 }

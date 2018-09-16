@@ -9,10 +9,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Log
-@EntityScan("org.haijun.study.batchJob.model")
+/*@EntityScan("org.haijun.study.batchJob.model")
 @EnableJpaRepositories("org.haijun.study.batchJob.repository")
+@EnableTransactionManagement*/
 @SpringBootApplication
-@EnableTransactionManagement
 @ServletComponentScan
 public class BatchJobApplication {
 
