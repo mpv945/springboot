@@ -1,5 +1,5 @@
-public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJewm6RN+LKtZzzwFiI9E857VlhfGdmql2UaQHU5cz+StbK1HG+KDscVvdX0j7oKl9CJi84Gd3XRmHiQx+n2wNkCAwEAAQ==
-#pwdMysql: tXrBQT/giE+XtonxvqR+5+bzBD9o4QufY5aHUnsbOIvj8al61slqkcFPD25ruSYtUN+wgZ6hnf+QxuHrVVga6Q==
+#public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJewm6RN+LKtZzzwFiI9E857VlhfGdmql2UaQHU5cz+StbK1HG+KDscVvdX0j7oKl9CJi84Gd3XRmHiQx+n2wNkCAwEAAQ==
+public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIMX6r11IGpGHkIodZLpkgRhH74DnlNUEQ+BW6BRBg/wTq9RJZHqJKcBvwmsKzQDiSIFV5rk+pusZGCjM1ishdECAwEAAQ==
 spring:
   jpa:
     generate-ddl: true
@@ -21,10 +21,12 @@ spring:
     show-sql: true #是否启用SQL语句的日志记录。
 #  datasource 连接信息,具体参考https://blog.csdn.net/zhangjq520/article/details/53996178 和https://segmentfault.com/a/1190000004316491
   datasource:
-    url: jdbc:mysql://192.168.0.109:3306/spring_boot_batch?useSSL=false
+    #url: jdbc:mysql://192.168.0.109:3306/spring_boot_batch?useSSL=false
+    url: jdbc:mysql://192.168.2.206:3306/spring_boot_batch?useSSL=false
     username: root
     #password: 123456 #加密类在本项目DruidConfiguration
-    password: DpyMXZUfH4JOXJ3ZzLJv4KV1pLx6KbVv+gFJpmuGT5Ib5UowOedt/ES/TzNYoZnTfXFHIOyOYFmjdr4cNTZNbw==
+    #password: DpyMXZUfH4JOXJ3ZzLJv4KV1pLx6KbVv+gFJpmuGT5Ib5UowOedt/ES/TzNYoZnTfXFHIOyOYFmjdr4cNTZNbw==
+    password: CoRNdxAc1U4litRk/oa0XWI+3FCn9rK1/nD4B9PG4m0LJ3o3qPm6u5dvxhsHm+61TbyyOYLPYrq4EC6y5VWTdw== #平板电脑
     driver-class-name: com.mysql.cj.jdbc.Driver
     continue-on-error: true #初始化数据库时是否发生错误时停止,true 表示忽略错误
     initialization-mode: ALWAYS #ALWAYS 始终初始化;EMBEDDED 仅初始化嵌入式数据库(H2数据库，SQLite);NEVER 不要初始化数据源
@@ -117,7 +119,40 @@ spring:
       cache: false
       # 默认 classpath:/templates/ 可以不配
       prefix: classpath:/templates/
-
+  redis: # 基本用法参考CustomListener
+    #database: 0 #默认为db0，可以不要配置
+    # 默认为localhost
+    host: localhost
+    # 默认6379
+    port: 6379
+    #password: #默认为空，设置密码才设置
+    #集群配置
+    #cluster:
+      #nodes:
+  quartz: #定时任务配置（QuartzAutoConfiguration调用setQuartzProperties进行配置设定）
+    job-store-type: jdbc
+    jdbc:
+      comment-prefix: QRTZ_
+      initialize-schema: always #每次创建
+      #schema:  # 官网默认配置好，初始化数据库
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceName: clusteredScheduler
+            instanceId: AUTO
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            tablePrefix: QRTZ_
+            isClustered: true
+            clusterCheckinInterval: 10000
+            useProperties: false
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 25
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
 logging: # spring boot.logging的实现就是Logback
   # 多环境日志 https://www.cnblogs.com/zheting/p/6707041.html
   config: classpath:log/log4j2-spring.xml #https://blog.csdn.net/qq_32096997/article/details/79824668 和 http://www.cnblogs.com/fengqiaoyebo/p/9599810.html

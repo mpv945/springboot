@@ -10,11 +10,12 @@ import java.util.List;
 /**
  * 用户实体Bean
  */
-public interface UserRepository extends UserRepositoryCustom,JpaRepository<User,String>,QuerydslPredicateExecutor<User> {
+public interface UserRepositoryCustom {
 
-    List<User> findByName(String name);
 
-    List<User> findByIdIn(Collection<String> ids);
-
-    List<User> findByNameLike(String name);
+    /**
+     * 最后创建的用户
+     * @return
+     */
+    User lastCreateUser();
 }

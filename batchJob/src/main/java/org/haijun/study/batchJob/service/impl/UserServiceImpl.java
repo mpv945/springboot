@@ -1,6 +1,8 @@
 package org.haijun.study.batchJob.service.impl;
 
+import com.querydsl.core.types.Predicate;
 import org.haijun.study.batchJob.model.User;
+import org.haijun.study.batchJob.model.querydsl.QUser;
 import org.haijun.study.batchJob.repository.UserRepository;
 import org.haijun.study.batchJob.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,4 +75,13 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    @Override
+    public User findOne(String name) {
+        /**
+         * 该例是使用spring data QueryDSL实现
+         */
+        QUser quser = QUser.user;
+        Predicate predicate = quser.name.eq(name);// 根据用户名，查询user表
+        return userRepository.findOne(predicate).orElse(new User());// 不存在初始一个
+    }
 }

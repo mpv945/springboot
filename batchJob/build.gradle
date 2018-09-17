@@ -68,6 +68,11 @@ dependencies {
     }*/
     // https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
+    compile group: 'com.querydsl', name: 'querydsl-jpa', version: '4.2.1'
+    //compile group: 'com.querydsl', name: 'querydsl-apt', version: '4.2.1'
+
+    //compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis'
+    compile 'org.springframework.boot:spring-boot-starter-quartz'
 }

@@ -1,0 +1,7 @@
+依赖 compile group: 'com.querydsl', name: 'querydsl-jpa', version: '4.2.1'
+通过maven的项目生成entity 的Q entity
+复制到项目，jpa接口继承QueryDslPredicateExecutor<T>
+最后service 可以使用querydsl了，简单使用具体参考UserServiceImpl
+
+更复杂请参考https://blog.csdn.net/liuchuanhong1/article/details/70244261?utm_source=gold_browser_extension
+https://www.jianshu.com/p/99a5ec5c3bd5

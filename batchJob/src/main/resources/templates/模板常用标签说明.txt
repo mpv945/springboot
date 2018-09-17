@@ -1,0 +1,8 @@
+IDEA 集成RESTful Web Service的Java 客户端 【Tools】--》【HTTP Client】--》
+
+存放thymeleaf模板文件
+
+常用表达式
+https://www.cnblogs.com/beyrl-blog/p/6633182.html
+https://www.cnblogs.com/tuanz/p/8709709.html
+https://www.cnblogs.com/nuoyiamy/p/5591559.html

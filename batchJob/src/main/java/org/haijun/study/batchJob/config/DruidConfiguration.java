@@ -55,7 +55,7 @@ public class DruidConfiguration {
 
         // Druid 密码加密处理
         public static void main(String[] args) {
-            String password = "123456";// 你的密码
+            String password = "!QAZ2wsx";// 你的密码
             try {
                 String[] arr = ConfigTools.genKeyPair(512);
                 System.out.println("privateKey:" + arr[0]);//私钥

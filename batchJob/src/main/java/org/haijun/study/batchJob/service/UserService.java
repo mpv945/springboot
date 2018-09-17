@@ -36,4 +36,11 @@ public interface UserService {
      * @return
      */
     boolean deleteUser(String id);
+
+    /**
+     * 使用dsl 查询一个对象
+     * @param name
+     * @return
+     */
+    User findOne(String name);
 }

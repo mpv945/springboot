@@ -3,15 +3,13 @@ package org.haijun.study.batchJob;
 import lombok.extern.java.Log;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.servlet.ServletComponentScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+// spring boot 学习步骤https://gitee.com/hengboy/spring-boot-chapter
 @Log
-/*@EntityScan("org.haijun.study.batchJob.model")
-@EnableJpaRepositories("org.haijun.study.batchJob.repository")
-@EnableTransactionManagement*/
+//@EntityScan("org.haijun.study.batchJob.model")
+//@EnableJpaRepositories(value = "org.haijun.study.batchJob.repository",repositoryImplementationPostfix = "plus")
+//@EnableTransactionManagement
 @SpringBootApplication
 @ServletComponentScan
 public class BatchJobApplication {
