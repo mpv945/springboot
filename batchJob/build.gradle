@@ -76,5 +76,5 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis'
     compile 'org.springframework.boot:spring-boot-starter-quartz'
-    compile 'org.springframework.boot:spring-boot-starter-batch'
+    compile 'org.springframework.boot:spring-boot-starter-batch' //https://blog.csdn.net/qq_26641781/article/details/80468344
 }

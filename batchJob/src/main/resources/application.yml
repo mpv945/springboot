@@ -153,6 +153,13 @@ spring:
             threadCount: 25
             threadPriority: 5
             threadsInheritContextClassLoaderOfInitializingThread: true
+  batch:
+    initialize-schema: always
+    table-prefix: BATCH_ #所有批次元数据表的表前缀。(默认没有)
+    #schema: # 如果每月特别设置默认就好 。的路径SQL文件，以用于初始化数据库架构。
+    job:
+      enabled: false #在启动时执行上下文中的所有Spring Batch作业。
+      #names: #逗号分隔的要在启动时执行的作业名称列表（例如，`job1，job2`）。默认情况下，将执行上下文中找到的所有作业。
 logging: # spring boot.logging的实现就是Logback
   # 多环境日志 https://www.cnblogs.com/zheting/p/6707041.html
   config: classpath:log/log4j2-spring.xml #https://blog.csdn.net/qq_32096997/article/details/79824668 和 http://www.cnblogs.com/fengqiaoyebo/p/9599810.html
