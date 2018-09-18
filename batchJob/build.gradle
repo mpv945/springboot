@@ -71,6 +71,7 @@ dependencies {
     compile group: 'com.querydsl', name: 'querydsl-jpa', version: '4.2.1'
     //compile group: 'com.querydsl', name: 'querydsl-apt', version: '4.2.1'
 
+    // 官网各个依赖说明指南https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#using-boot-starter
     //compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis'
