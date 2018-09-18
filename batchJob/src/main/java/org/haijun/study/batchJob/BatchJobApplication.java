@@ -12,6 +12,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 //@EnableTransactionManagement
 @SpringBootApplication
 @ServletComponentScan
+// 装配的配置 bean 在spring-boot-autoconfigure-2.0.5.RELEASE.jar 下。
 public class BatchJobApplication {
 
     //protected static final Logger log = LoggerFactory.getLogger(BatchJobApplication.class);
