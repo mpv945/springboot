@@ -1,6 +1,8 @@
 /*group 'org.haijun.study'
 version '1.0-SNAPSHOT'*/
 
+// maven 项目转 gradle 项目：进入maven的根目录（pom文件所在的项目，然后执行gradle init --type pom 就可以转gradle项目）
+
 apply from: 'dependency.gradle'//加载本地插件
 description = '第一个gradle项目，多项目管理'
 
