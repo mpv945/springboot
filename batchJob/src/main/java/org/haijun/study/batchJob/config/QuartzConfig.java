@@ -1,123 +1,54 @@
 package org.haijun.study.batchJob.config;
 
-import java.io.IOException;
-import java.util.Properties;
 
-import org.haijun.study.batchJob.quartz.jobs.CustomQuartzJob;
-import org.quartz.JobBuilder;
-import org.quartz.JobDataMap;
+import org.haijun.study.batchJob.tools.AutowiringSpringBeanJobFactory;
 import org.quartz.JobDetail;
-import org.quartz.SimpleScheduleBuilder;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
-import org.springframework.batch.core.configuration.JobLocator;
-import org.springframework.batch.core.configuration.JobRegistry;
-import org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor;
-import org.springframework.batch.core.launch.JobLauncher;
+import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.util.CollectionUtils;
 
-
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Configuration
-public class QuartzConfig
-{
-    @Autowired
-    private JobLauncher jobLauncher;
+
+public class QuartzConfig {
 
     @Autowired
-    private JobLocator jobLocator;
+    private List<CronTriggerFactoryBean> cronTriggerFactoryBeans;
 
+    @Autowired
+    private List<Trigger> triggers;
+
+    @Autowired
+    private List<JobDetail>  jobDetails;
+
+    // Quartz中的job自动注入spring容器托管的对象
     @Bean
-    public JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor(JobRegistry jobRegistry) {
-        JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor = new JobRegistryBeanPostProcessor();
-        jobRegistryBeanPostProcessor.setJobRegistry(jobRegistry);
-        return jobRegistryBeanPostProcessor;
-    }
-
-
-    @Bean
-    public JobDetail jobOneDetail() {
-        //Set Job data map
-        JobDataMap jobDataMap = new JobDataMap();
-        jobDataMap.put("jobName", "demoJobOne");
-        jobDataMap.put("jobLauncher", jobLauncher);
-        jobDataMap.put("jobLocator", jobLocator);
-
-        return JobBuilder.newJob(CustomQuartzJob.class)
-                .withIdentity("demoJobOne")
-                .setJobData(jobDataMap)
-                .storeDurably()
-                .build();
+    public AutowiringSpringBeanJobFactory autoWiringSpringBeanJobFactory() {
+        return new AutowiringSpringBeanJobFactory();
     }
 
     @Bean
-    public JobDetail jobTwoDetail() {
-        //Set Job data map
-        JobDataMap jobDataMap = new JobDataMap();
-        jobDataMap.put("jobName", "demoJobTwo");
-        jobDataMap.put("jobLauncher", jobLauncher);
-        jobDataMap.put("jobLocator", jobLocator);
-
-        return JobBuilder.newJob(CustomQuartzJob.class)
-                .withIdentity("demoJobTwo")
-                .setJobData(jobDataMap)
-                .storeDurably()
-                .build();
-    }
-
-    @Bean
-    public Trigger jobOneTrigger()
-    {
-        SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder
-                .simpleSchedule()
-                .withIntervalInSeconds(10)
-                .repeatForever();
-
-        return TriggerBuilder
-                .newTrigger()
-                .forJob(jobOneDetail())
-                .withIdentity("jobOneTrigger")
-                .withSchedule(scheduleBuilder)
-                .build();
-    }
-
-    @Bean
-    public Trigger jobTwoTrigger()
-    {
-        SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder
-                .simpleSchedule()
-                .withIntervalInSeconds(20)
-                .repeatForever();
-
-        return TriggerBuilder
-                .newTrigger()
-                .forJob(jobTwoDetail())
-                .withIdentity("jobTwoTrigger")
-                .withSchedule(scheduleBuilder)
-                .build();
-    }
-
-    @Bean
-    public SchedulerFactoryBean schedulerFactoryBean() throws IOException
-    {
+    public SchedulerFactoryBean schedulerFactoryBean() throws SchedulerException {
         SchedulerFactoryBean scheduler = new SchedulerFactoryBean();
-        scheduler.setTriggers(jobOneTrigger(), jobTwoTrigger());
-        scheduler.setQuartzProperties(quartzProperties());
-        scheduler.setJobDetails(jobOneDetail(), jobTwoDetail());
+        scheduler.setJobFactory(autoWiringSpringBeanJobFactory());
+        if(!CollectionUtils.isEmpty(cronTriggerFactoryBeans)){
+            Trigger[] objs = cronTriggerFactoryBeans.stream().map(obj->obj.getObject()).collect(Collectors.toList()).toArray(new Trigger[]{});
+            scheduler.setTriggers(objs);
+        }
+        if(!CollectionUtils.isEmpty(triggers)){
+            scheduler.setTriggers(triggers.toArray(new Trigger[]{}));
+            scheduler.setJobDetails(jobDetails.toArray(new JobDetail[]{}));
+        }
         return scheduler;
     }
 
-    @Bean
-    public Properties quartzProperties() throws IOException
-    {
-        PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
-        propertiesFactoryBean.setLocation(new ClassPathResource("/quartz.properties"));
-        propertiesFactoryBean.afterPropertiesSet();
-        return propertiesFactoryBean.getObject();
-    }
 }
