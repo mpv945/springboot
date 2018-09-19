@@ -12,6 +12,10 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
+
+// 生成普通的jar
+//https://www.jianshu.com/p/01588c396a29
+
 //由于spring-boot-starter-logging在spring-boot-starter包，无法用下面的依赖排除，所以整个项目种排除
 configurations {
     compile.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
