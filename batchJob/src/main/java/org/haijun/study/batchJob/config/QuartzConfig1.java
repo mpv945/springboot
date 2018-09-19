@@ -8,21 +8,21 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
-@Configuration
+//@Configuration
 public class QuartzConfig1 {
 
     // Quartz中的job自动注入spring容器托管的对象
-    @Bean
+    //@Bean
     public AutowiringSpringBeanJobFactory autoWiringSpringBeanJobFactory() {
         return new AutowiringSpringBeanJobFactory();
     }
 
-    @Autowired
-    @Qualifier("calculateTrigger")
+    //@Autowired
+    //@Qualifier("calculateTrigger")
     public CronTriggerFactoryBean calculateTrigger;
 
 
-    @Bean
+    //@Bean
     public SchedulerFactoryBean schedulerFactoryBean() {
         SchedulerFactoryBean scheduler = new SchedulerFactoryBean();
         scheduler.setJobFactory(autoWiringSpringBeanJobFactory());  //配置Spring注入的Job类  固定不变

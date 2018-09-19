@@ -10,7 +10,7 @@ import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 public class CalculateTask {
     //时间配置文件
     //@Value("${job.calculateTriggerCron}")
-    private String calculateTriggerCron="0 0 23 * * ?"; //秒，分钟，小时，天，月，年，星期       这个配置的意思是 每天的 23：0：0
+    private String calculateTriggerCron="0 0/1 * * * ?"; //秒，分钟，小时，天，月，年，星期       这个配置的意思是 每天的 23：0：0
 
     @Bean(name="calculateDetail")
     public JobDetailFactoryBean jobDetailFactoryBean(){
