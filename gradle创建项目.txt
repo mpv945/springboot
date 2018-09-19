@@ -1,3 +1,5 @@
+// maven 项目转 gradle 项目：进入maven的根目录（pom文件所在的项目，然后执行gradle init --type pom 就可以转gradle项目）
+
 1 点击File--> new project--> gradle (不要勾选java，啥都不勾）--> 创建一个root项目
 2 创建子项目 选择上面创建的项目，右键--> new Modele --> gradle--> 根据自己的项目类型（java项目勾选java，web勾选web）点击next---> Add as moudule to(父项目)
 3 确认父类的settings.gradle 包含 include '子项目名称'
